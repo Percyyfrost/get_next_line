@@ -6,7 +6,7 @@
 /*   By: vnxele <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 09:24:13 by vnxele            #+#    #+#             */
-/*   Updated: 2018/01/30 16:01:17 by vnxele           ###   ########.fr       */
+/*   Updated: 2018/01/31 10:11:37 by vnxele           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int		get_next_line(const int fd, char **line)
 {
 	static	t_static	head;
 
-	if (!(*line = ft_strnew(0)) || fd < 0)
+	if (line == NULL || !(*line = ft_strnew(0)) || fd < 0)
 		return (-1);
 	if (head.cache)
 	{
@@ -72,23 +72,7 @@ int		get_next_line(const int fd, char **line)
 			free(head.temp);
 			return (1);
 		}
-		if (head.cache)
-			free(head.cache);
+		head.cache = NULL;
 	}
 	return (get_line(&head, fd, line));
-}
-
-int		main()
-{
-	char *line;
-	int fd;
-
-	fd = open("text.txt", O_RDONLY);
-	while (get_next_line(fd, &line) > 0)
-	{
-		ft_putendl(line);
-		free(line);
-	}
-	free(line);
-	return (0);
 }
